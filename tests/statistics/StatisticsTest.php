@@ -199,10 +199,13 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_get_lifetime_count_with_valid_id()
 	{
+		$q_before = $this->getQueries();
+
 		$count = Statistics::factory($this->config, 2)
 			->get_lifetime_count();
 
 		$this->assertEquals(24, $count);
+		$this->assertQueryCountIncrease(1, $q_before, $this->getQueries());
 	}
 
 	/**
@@ -236,10 +239,13 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_get_period_count_with_valid_id()
 	{
+		$q_before = $this->getQueries();
+
 		$count = Statistics::factory($this->config, 2)
 			->get_period_count();
 
 		$this->assertEquals(7, $count);
+		$this->assertQueryCountIncrease(1, $q_before, $this->getQueries());
 	}
 
 	/**
@@ -273,8 +279,12 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_increment_with_valid_id()
 	{
+		$q_before = $this->getQueries();
+
 		Statistics::factory($this->config, 1)
 			->increment();
+
+		$this->assertQueryCountIncrease(2, $q_before, $this->getQueries());
 
 		$expected = DB::select()
 			->from($this->config['table'])
@@ -319,8 +329,12 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_reset_period_with_valid_id()
 	{
+		$q_before = $this->getQueries();
+
 		Statistics::factory($this->config, 4)
 			->reset_period();
+
+		$this->assertQueryCountIncrease(2, $q_before, $this->getQueries());
 
 		$expected = DB::select()
 			->from($this->config['table'])
@@ -353,10 +367,13 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_delete_with_invalid_id()
 	{
+		$q_before = $this->getQueries();
+
 		$result = Statistics::factory($this->config, 13)
 			->delete();
 
 		$this->assertFalse($result);
+		$this->assertQueryCountIncrease(1, $q_before, $this->getQueries());
 	}
 
 	/**
@@ -366,10 +383,13 @@ class Statistics_StatisticsTest extends Kohana_Unittest_TestCase {
 	 */
 	public function test_delete_with_valid_id()
 	{
+		$q_before = $this->getQueries();
+
 		$result = Statistics::factory($this->config, 2)
 			->delete();
 
 		$this->assertTrue($result);
+		$this->assertQueryCountIncrease(1, $q_before, $this->getQueries());
 
 		$expected = DB::select()
 			->from($this->config['table'])
