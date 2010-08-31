@@ -1,0 +1,27 @@
+<phpunit
+    bootstrap="../../index.php"
+    color="true">
+
+    <testsuites>
+        <testsuite name="Statistics Module Test Suite">
+            <directory>./tests/statistics</directory>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <include>
+            <group>modules.statistics</group>
+        </include>
+    </groups>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./classes</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="coverage" charset="UTF-8"
+            yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" />
+    </logging>
+</phpunit>
